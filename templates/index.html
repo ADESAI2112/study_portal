@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Study Portal</title>
+    <!-- Tailwind CSS for modern styling -->
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-slate-50 text-slate-800 min-h-screen flex flex-col">
+
+    <!-- Navbar -->
+    <header class="bg-indigo-600 text-shadow shadow-md">
+        <div class="max-w-7xl mx-auto px-4 py-4 flex justify-between items-center">
+            <h1 class="text-2xl font-bold text-white tracking-wide">📚 Study Portal</h1>
+            <a href="/admin" class="bg-white text-indigo-600 font-semibold px-4 py-2 rounded-lg shadow hover:bg-indigo-50 transition">Admin Panel</a>
+        </div>
+    </header>
+
+    <!-- Main Container -->
+    <main class="flex-grow max-w-7xl w-full mx-auto px-4 py-8">
+        
+        <!-- Hero Section -->
+        <div class="bg-gradient-to-r from-indigo-500 to-violet-600 rounded-2xl p-8 text-white shadow-lg mb-8">
+            <h2 class="text-3xl font-extrabold mb-2">Welcome, Students!</h2>
+            <p class="text-indigo-100 text-lg">Access and download verified notes, question papers, and study resources instantly.</p>
+        </div>
+
+        <!-- Materials Section Header -->
+        <div class="flex justify-between items-center mb-6">
+            <h3 class="text-xl font-bold text-slate-700">Available Study Materials</h3>
+            <span class="text-sm text-slate-500 font-medium">Showing latest uploads</span>
+        </div>
+
+        <!-- Materials Grid -->
+        {% if materials %}
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                {% for material in materials %}
+                    <div class="bg-white rounded-xl shadow-sm hover:shadow-md transition border border-slate-200 p-6 flex flex-col justify-between">
+                        <div>
+                            <div class="flex justify-between items-start mb-3">
+                                <span class="bg-indigo-50 text-indigo-600 text-xs font-semibold px-2.5 py-1 rounded-full uppercase tracking-wider">{{ material.subject }}</span>
+                                <span class="text-xs text-slate-400 font-medium">{{ material.board }} | Class {{ material.clz }}</span>
+                            </div>
+                            <h4 class="text-lg font-bold text-slate-900 mb-2">{{ material.title }}</h4>
+                            <p class="text-slate-600 text-sm mb-4 line-clamp-2">{{ material.description or "No description provided for this material." }}</p>
+                        </div>
+                        
+                        <div class="pt-4 border-t border-slate-100 flex items-center justify-between">
+                            <span class="text-xs text-slate-500">File Ready</span>
+                            <a href="{{ url_for('static', filename='uploads/' + material.filename) }}" download class="bg-indigo-600 hover:bg-indigo-700 text-white text-sm font-medium px-4 py-2 rounded-lg transition shadow-sm flex items-center gap-1.5">
+                                Download
+                            </a>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+        {% else %}
+            <!-- Empty State -->
+            <div class="text-center py-16 bg-white rounded-2xl border border-dashed border-slate-300 shadow-sm">
+                <p class="text-slate-500 text-lg mb-2">No study materials uploaded yet.</p>
+                <p class="text-slate-400 text-sm mb-4">Go to the admin panel to upload your first set of notes.</p>
+                <a href="/admin" class="inline-block bg-indigo-600 text-white font-medium px-5 py-2.5 rounded-lg shadow hover:bg-indigo-700 transition">Go to Admin Panel</a>
+            </div>
+        {% endif %}
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-white border-t border-slate-200 py-6 text-center text-slate-500 text-sm">
+        <p>&copy; 2026 Student Study Portal. All rights reserved.</p>
+    </footer>
+
+</body>
+</html>
