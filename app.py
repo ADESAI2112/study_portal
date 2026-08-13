@@ -25,6 +25,7 @@ def init_db():
         )
     ''')
     
+    
     # Check if database is empty; if so, auto-populate the master syllabus matrix for Classes 6-12
     cursor.execute('SELECT COUNT(*) FROM materials')
     if cursor.fetchone()[0]==0:
